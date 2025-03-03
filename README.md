@@ -1,5 +1,7 @@
 # Extracción y Filtrado de Imágenes desde un Sitio Web
 
+![San-Juan-IDPC-AllImages-03-03-2025_08_34_AM](https://github.com/user-attachments/assets/bc66b625-2a37-45c0-b0b8-1aea506593ea)
+
 Este programa permite obtener imágenes desde un sitio web de manera automática, utilizando un archivo especial llamado "sitemap". Además, filtra y guarda las imágenes en un archivo CSV, eliminando aquellas que contienen logotipos o imágenes duplicadas. Posteriormente, el resultado se organiza en una galería visual donde cada imagen tiene un enlace directo a la página de origen.
 
 El proceso comienza accediendo al sitio web de manera segura, simulando ser un navegador real para evitar bloqueos. Luego, se extraen todas las direcciones de páginas web listadas en un archivo sitemap. Si dentro del sitemap se encuentran otros sitemaps adicionales, estos también son procesados. Una vez obtenidas las URLs de todas las páginas, el programa busca imágenes dentro de cada una de ellas, examinando etiquetas visibles y enlaces ocultos.
