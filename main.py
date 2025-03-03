@@ -76,6 +76,19 @@ def get_image_urls(page_url):
                     images.add((img_url, page_url))
                     print(f"  - Imagen encontrada (background): {img_url}")
 
+        # Buscar URLs de imágenes en atributos data-bg
+        for element in soup.find_all(attrs={"data-bg": True}):
+            img_url = element.get('data-bg')
+            if img_url:
+                # Extraer la URL de data-bg si está envuelta en url()
+                match = re.search(r'url\([\'"]?(.*?)[\'"]?\)', img_url)
+                if match:
+                    img_url = match.group(1)
+                img_url = urljoin(page_url, img_url)
+                if img_url.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
+                    images.add((img_url, page_url))
+                    print(f"  - Imagen encontrada (data-bg): {img_url}")
+
         return list(images)
     except Exception as e:
         print(f"⚠ Error obteniendo imágenes de {page_url}: {e}")
@@ -104,7 +117,7 @@ def main():
     print(f"✅ Total de imágenes PNG/JPG encontradas: {len(all_images)}")
 
     if all_images:
-        with open("images.csv", "w", newline="", encoding="utf-8") as csvfile:
+        with open("images_original.csv", "w", newline="", encoding="utf-8") as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(["Image URL", "Page URL"])
             for img, page in all_images:
