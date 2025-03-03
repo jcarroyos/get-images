@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.gallery {
+    column-count: 3;
+    column-gap: 1em;
+    margin: 1em;
+}
+
+.gallery img {
+    width: 100%;
+    margin-bottom: 1em;
+    break-inside: avoid;
+}
