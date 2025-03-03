@@ -6,7 +6,8 @@ def remove_logo_rows(input_file, output_file):
         'CasaAbierta_light.png',
         'Asset-1.png',
         'zoom-in.png',
-        'zoom-out.png'
+        'zoom-out.png',
+        'PlantillaAudios-1.png'
     }
     
     seen_urls = set()

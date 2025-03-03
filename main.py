@@ -20,7 +20,7 @@ def get_sitemap_urls(sitemap_url):
         return []
 
 def get_image_urls(page_url):
-    """Extrae imágenes PNG y JPG, incluyendo las cargadas con lazy-loading."""
+    """Extrae imágenes PNG, JPG y WEBP, incluyendo las cargadas con lazy-loading."""
     try:
         response = requests.get(page_url, headers=headers, timeout=10)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -36,7 +36,7 @@ def get_image_urls(page_url):
                     if ' ' in img_url:
                         img_url = img_url.split()[0]
                     img_url = urljoin(page_url, img_url)
-                    if img_url.lower().endswith(('.png', '.jpg', '.jpeg')):
+                    if img_url.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
                         images.add((img_url, page_url))
                         print(f"  - Imagen encontrada (img tag): {img_url}")
 
@@ -46,13 +46,13 @@ def get_image_urls(page_url):
             # Verificar si el enlace tiene cualquier clase relacionada con lightbox
             if a.get('class') and any('lbox-trigger' in cls for cls in a.get('class')):
                 img_url = a.get('href')
-                if img_url and img_url.lower().endswith(('.png', '.jpg', '.jpeg')):
+                if img_url and img_url.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
                     img_url = urljoin(page_url, img_url)
                     images.add((img_url, page_url))
                     print(f"  - Imagen encontrada (lightbox): {img_url}")
             
             # También verificar cualquier enlace que apunte a imágenes directamente
-            elif a.get('href') and a.get('href').lower().endswith(('.png', '.jpg', '.jpeg')):
+            elif a.get('href') and a.get('href').lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
                 img_url = urljoin(page_url, a.get('href'))
                 images.add((img_url, page_url))
                 print(f"  - Imagen encontrada (enlace directo): {img_url}")
@@ -61,7 +61,7 @@ def get_image_urls(page_url):
         # Buscar en atributos data-* que puedan contener URLs de imágenes
         for element in soup.find_all(attrs={"data-lg-size": True}):
             img_url = element.get('href')
-            if img_url and img_url.lower().endswith(('.png', '.jpg', '.jpeg')):
+            if img_url and img_url.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
                 img_url = urljoin(page_url, img_url)
                 images.add((img_url, page_url))
                 print(f"  - Imagen encontrada (galería lightbox): {img_url}")
@@ -71,7 +71,7 @@ def get_image_urls(page_url):
             style = element.get('style')
             urls = re.findall(r'url\([\'"]?(.*?)[\'"]?\)', style)
             for url in urls:
-                if url.lower().endswith(('.png', '.jpg', '.jpeg')):
+                if url.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
                     img_url = urljoin(page_url, url)
                     images.add((img_url, page_url))
                     print(f"  - Imagen encontrada (background): {img_url}")
